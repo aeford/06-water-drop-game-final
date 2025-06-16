@@ -1,0 +1,246 @@
+/* Charity: water Brand Colors & Fonts
+
+Primary Colors:
+- Yellow:     #FFC907
+- Blue:       #2E9DF7
+
+Secondary Colors:
+- Light Blue: #8BD1CB
+- Green:      #4FCB53
+- Orange:     #FF902A
+- Red:        #F5402C
+- Dark Green: #159A48
+- Pink:       #F16061
+
+Fonts:
+- Proxima Nova
+- Avenir
+
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FFF7E1; /* Changed background color */
+    font-family: Arial, sans-serif;
+}
+
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative; /* Ensure absolute children are positioned correctly */
+}
+
+.score-panel {
+    display: flex;
+    justify-content: space-between;  /* Space between score and button */
+    align-items: center;
+    width: 800px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timer {
+    flex: 0 1 auto;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#game-container {
+    width: 800px;
+    height: 600px;
+    background: url('img/simple.png') center center/cover no-repeat;
+    border: 2px solid #333;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px; /* Added space under the game box */
+}
+
+
+#start-btn, #end-btn {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#start-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#start-btn:hover {
+    background-color: #45a049;
+}
+
+#end-btn {
+    background-color: #F5402C;
+    color: white;
+}
+
+#end-btn:hover {
+    background-color: #c6281c;
+}
+
+.score {
+    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.water-drop {
+    position: absolute;
+    width: 60px;  /* increased from 40px */
+    height: 60px; /* increased from 40px */
+    background-color: transparent; /* Make background transparent for image visibility */
+    border-radius: 50%;
+    animation: dropFall linear forwards;
+    transform-origin: center;
+    cursor: pointer;
+    padding: 15px;  /* Add padding for larger click area */
+    margin: -15px;  /* Offset padding to maintain visual size */
+    transition: transform 0.1s ease;  /* Smooth hover effect */
+}
+
+.water-drop:hover {
+    transform: scale(1.1);  /* Slight grow effect on hover */
+}
+
+.bad-drop {
+    background-color: transparent;
+    /* Removed box-shadow for a clean look */
+}
+
+.game-title {
+    color: #003366;
+    font-size: 48px;
+    margin-top: 0;
+    margin-bottom: 5px;  /* reduced from 20px */
+    text-align: center;
+}
+
+.game-tagline {
+    color: #77A8BB;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#water-can {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 40px;
+    width: 120px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes dropFall {
+    from {
+        transform: translateY(-20px);
+    }
+    to {
+        transform: translateY(600px);
+    }
+}
+
+@media (max-width: 850px) {
+    .game-wrapper, .score-panel, #game-container {
+        width: 95vw;
+    }
+    
+    #game-container {
+        height: 70vh;
+    }
+}
+
+#game-popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-popup .popup-content {
+    background: #fff;
+    padding: 32px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+#game-popup h2 {
+    margin-bottom: 16px;
+    font-size: 2rem;
+    color: #2E9DF7;
+}
+
+#game-popup p {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+}
+
+#play-again-btn {
+    padding: 10px 24px;
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#play-again-btn:hover {
+    background: #45a049;
+}
+
+/* Stylized mode dropdown */
+#mode-select {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: 2px solid #77A8BB;
+    border-radius: 6px;
+    background: #fff;
+    color: #003366;
+    font-weight: bold;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(46,157,247,0.08);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-left: 8px;
+    cursor: pointer;
+}
+#mode-select:focus, #mode-select:hover {
+    border-color: #FFC907;
+    box-shadow: 0 0 0 2px #FFC90733;
+    background: #F3FAFF;
+}
+#mode-select option {
+    color: #003366;
+    background: #fff;
+    font-weight: normal;
+}
+label[for="mode-select"] {
+    color: #77A8BB;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 4px;
+    vertical-align: middle;
+}
