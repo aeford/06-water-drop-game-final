@@ -26,11 +26,54 @@ Fonts:
 
 body {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
-    background-color: #FFF7E1; /* Changed background color */
+    background-color: #FFF7E1; /*background color for the entire page*/
     font-family: Arial, sans-serif;
+}
+
+.cw-header {
+    width: 100%;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.cw-footer {
+    width: 100%;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    background: none;
+    position: static;
+}
+
+.cw-footer .cw-logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.cw-footer .cw-nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 0;
+}
+
+.main-content-center {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 120px);
 }
 
 .game-wrapper {
@@ -61,7 +104,7 @@ body {
 #game-container {
     width: 800px;
     height: 600px;
-    background: url('img/simple.png') center center/cover no-repeat;
+    background: linear-gradient(180deg, #FFC907 0%, #2E9DF7 100%);
     border: 2px solid #333;
     border-radius: 8px;
     position: relative;
@@ -128,16 +171,18 @@ body {
 .game-title {
     color: #003366;
     font-size: 48px;
-    margin-top: 0;
+    margin-top: 32px;
     margin-bottom: 5px;  /* reduced from 20px */
     text-align: center;
+    font-family: 'Proxima Nova Bold', 'Proxima Nova', 'Avenir Heavy', 'Avenir', 'Georgia Bold', 'Georgia', sans-serif;
 }
 
 .game-tagline {
     color: #77A8BB;
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 20px;
     text-align: center;
+    font-family: 'Proxima Nova Regular', 'Proxima Nova', 'Avenir Medium', 'Avenir', 'Georgia Regular', 'Georgia',  sans-serif;
 }
 
 #water-can {
@@ -163,9 +208,68 @@ body {
     .game-wrapper, .score-panel, #game-container {
         width: 95vw;
     }
-    
     #game-container {
         height: 70vh;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    .score-panel {
+        flex-direction: column;
+        align-items: stretch;
+        width: 95vw;
+        gap: 12px;
+        padding: 12px 4vw;
+    }
+    .score-panel > div, .score-panel > button {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0;
+    }
+    #start-btn, #end-btn {
+        width: 100%;
+        margin-top: 4px;
+    }
+    .score-panel label[for="mode-select"] {
+        display: block;
+        margin-bottom: 4px;
+    }
+    #mode-select {
+        width: 100%;
+        margin-left: 0;
+    }
+    .cw-footer .cw-logo-heading {
+        max-width: 60vw;
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+@media (max-width: 500px) {
+    .game-title {
+        font-size: 2rem;
+    }
+    .score-panel {
+        padding: 8px 2vw;
+        font-size: 1rem;
+    }
+    #game-container {
+        height: 50vh;
+        min-height: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    .title-row img.title-can-img {
+        height: 32px !important;
+        margin: 0 6px !important;
+    }
+    .cw-footer .cw-logo-heading {
+        max-width: 90vw;
+        width: 100%;
+        height: auto;
+        display: block;
     }
 }
 

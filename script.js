@@ -72,6 +72,12 @@ function createDrop(mode = MODES.beginner) {
   // Randomly decide if this is a bad drop (mode-specific chance)
   const isBadDrop = Math.random() < mode.badDropRatio;
 
+  // Decide if this is a can drop (good drop, but different image)
+  let isCanDrop = false;
+  if (!isBadDrop && Math.random() < 0.3) { // 30% of good drops are cans
+    isCanDrop = true;
+  }
+
   // Create a new div element that will be our water drop
   const drop = document.createElement("div");
   drop.className = isBadDrop ? "water-drop bad-drop" : "water-drop";
@@ -82,11 +88,14 @@ function createDrop(mode = MODES.beginner) {
   const size = initialSize * sizeMultiplier;
   drop.style.width = drop.style.height = `${size}px`;
 
-  // Use a water drop image as the drop, or bad drop image
+  // Use a water drop image, can image, or bad drop image
   drop.style.background = "none";
   if (isBadDrop) {
     drop.style.backgroundImage = "url('img/baddrop.png')";
-    drop.style.borderRadius = "0"; // Remove border radius for bad drop
+    drop.style.borderRadius = "0";
+  } else if (isCanDrop) {
+    drop.style.backgroundImage = "url('img/water-can-transparent.png')";
+    drop.style.borderRadius = "0";
   } else {
     drop.style.backgroundImage = "url('img/waterdrop.png')";
     drop.style.borderRadius = "0";
@@ -96,7 +105,6 @@ function createDrop(mode = MODES.beginner) {
   drop.style.backgroundPosition = "center";
 
   // Position the drop randomly across the game width
-  // Subtract 60 pixels to keep drops fully inside the container
   const gameWidth = document.getElementById("game-container").offsetWidth;
   const xPosition = Math.random() * (gameWidth - 60);
   drop.style.left = xPosition + "px";
@@ -107,69 +115,38 @@ function createDrop(mode = MODES.beginner) {
   // Add the new drop to the game screen
   document.getElementById("game-container").appendChild(drop);
 
-  // Collision detection interval
-  const collisionInterval = setInterval(() => {
-    const dropRect = drop.getBoundingClientRect();
-    const canRect = waterCan.getBoundingClientRect();
-
-    // Check if bottom of drop touches or passes top of can and horizontal overlap
-    const touchesTop =
-      dropRect.bottom >= canRect.top &&
-      dropRect.left < canRect.right &&
-      dropRect.right > canRect.left;
-
-    if (touchesTop) {
-      // Increase or decrease score
-      const scoreElem = document.getElementById("score");
-      let score = parseInt(scoreElem.textContent);
-      if (isBadDrop) {
-        score = Math.max(0, score - 1); // Don't allow negative score
-      } else {
-        score = score + 1;
+  // Click to catch or miss drop
+  drop.addEventListener("click", () => {
+    const scoreElem = document.getElementById("score");
+    let score = parseInt(scoreElem.textContent);
+    if (isBadDrop) {
+      score = Math.max(0, score - 1); // Don't allow negative score
+    } else if (isCanDrop) {
+      score = score + 2;
+      // Play pop sound for can drops
+      const popSound = document.getElementById("pop-sound");
+      if (popSound) {
+        popSound.currentTime = 0;
+        popSound.play();
       }
-      scoreElem.textContent = score;
-      drop.remove();
-      clearInterval(collisionInterval);
-    } else if (!document.body.contains(drop)) {
-      // Drop was removed by animation or otherwise
-      clearInterval(collisionInterval);
+    } else {
+      score = score + 1;
+      // Play pop sound for blue drops
+      const popSound = document.getElementById("pop-sound");
+      if (popSound) {
+        popSound.currentTime = 0;
+        popSound.play();
+      }
     }
-  }, 16); // ~60fps
+    scoreElem.textContent = score;
+    drop.remove();
+  });
 
-  // Remove drops that reach the bottom (weren't caught)
+  // Remove drops that reach the bottom (weren't clicked)
   drop.addEventListener("animationend", () => {
     drop.remove(); // Clean up drop
   });
 }
-
-// Water can movement logic
-const gameContainer = document.getElementById("game-container");
-const waterCan = document.getElementById("water-can");
-
-// Helper to update water can position
-function moveWaterCan(x) {
-  const containerRect = gameContainer.getBoundingClientRect();
-  const canWidth = waterCan.offsetWidth;
-  // Shift range right by 30px
-  const shift = 30;
-  let relativeX = x - containerRect.left;
-  let minLeft = shift;
-  let maxLeft = gameContainer.offsetWidth - canWidth + shift;
-  let newLeft = Math.max(minLeft, Math.min(relativeX - canWidth / 2 + shift, maxLeft));
-  waterCan.style.left = `${newLeft}px`;
-}
-
-// Mouse movement
-gameContainer.addEventListener("mousemove", (e) => {
-  moveWaterCan(e.clientX);
-});
-
-// Touch movement
-gameContainer.addEventListener("touchmove", (e) => {
-  if (e.touches.length > 0) {
-    moveWaterCan(e.touches[0].clientX);
-  }
-});
 
 // Initialize can position at center on load
 window.addEventListener("DOMContentLoaded", () => {

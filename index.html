@@ -7,32 +7,39 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-wrapper">
+    <div class="game-wrapper main-content-center">
         <h1 class="game-title">Water Drop</h1>
         <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
         <div class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
             <div class="timer">Time: <span id="time">30</span>s</div>
+            <div style="margin-bottom: 0;">
+                <label for="mode-select"><strong>Mode:</strong></label>
+                <select id="mode-select">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
             <button id="start-btn">Start Game</button>
             <button id="end-btn" style="display:none;">Reset</button>
         </div>
         
-        <div style="margin-bottom: 10px;">
-            <label for="mode-select"><strong>Mode:</strong></label>
-            <select id="mode-select">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="expert">Expert</option>
-            </select>
-        </div>
-        
         <div id="game-container">
         </div>
-        <img id="water-can" src="img/water-can-transparent.png" alt="Water Can">
     </div>
-    
-    
+    <audio id="pop-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae7c2.mp3" preload="auto"></audio>
     
     <script src="script.js"></script>
+    <footer class="cw-footer">
+      <a href="https://www.charitywater.org" target="_blank" rel="noopener" class="cw-logo-link">
+        <img src="img/cw_logo-horizontal.png" alt="charity: water logo" class="cw-logo-heading" style="max-width:320px;display:block;" />
+      </a>
+      <nav class="cw-nav" style="margin-top:4px;">
+        <a href="https://www.charitywater.org/" target="_blank" rel="noopener" style="margin-right:18px;color:#2E9DF7;font-weight:bold;text-decoration:none;font-size:1.1rem;">Home</a>
+        <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener" style="margin-right:18px;color:#FFC907;font-weight:bold;text-decoration:none;font-size:1.1rem;">Donate</a>
+        <a href="https://www.charitywater.org/donate/monthly" target="_blank" rel="noopener" style="color:#4FCB53;font-weight:bold;text-decoration:none;font-size:1.1rem;">Monthly Giving</a>
+      </nav>
+    </footer>
 </body>
 </html>
